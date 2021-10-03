@@ -1,13 +1,13 @@
 package repository
 
 import (
-	. "bootcamp/domain/model"
 	"encoding/csv"
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"strconv"
+
+	. "bootcamp/domain/model"
 )
 
 const pkmnpath = "infraestructure/filestore/pokemon"
@@ -29,7 +29,6 @@ func GetAllPokemon() ([]Pokemon, error) {
 
 	for _, record := range records {
 		id, _ := strconv.Atoi(record[0])
-		fmt.Println(id, "xxx")
 		pkmn := Pokemon{
 			Id:   id,
 			Name: record[1],
