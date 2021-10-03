@@ -1,6 +1,6 @@
 package model
 
 type Pokemon struct {
-	Id   string
-	Name string
+	Id   int    `json:"id"`
+	Name string `json:"name"`
 }
