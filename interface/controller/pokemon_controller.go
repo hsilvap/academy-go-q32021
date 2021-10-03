@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 
 	. "bootcamp/interface/repository"
@@ -10,7 +12,7 @@ type pokemonController struct {
 	*gin.Engine
 }
 type PokemonController interface {
-	GetPokemon() error
+	GetPokemon()
 }
 
 //New Pokemon Controller instance
@@ -23,8 +25,8 @@ func (this *pokemonController) GetPokemon() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var data, err = GetAllPokemon()
 		if err != nil {
-			c.JSON(500, err)
+			c.JSON(http.StatusInternalServerError, err)
 		}
-		c.JSON(200, data)
+		c.JSON(http.StatusOK, data)
 	}
 }

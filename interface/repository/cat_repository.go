@@ -40,6 +40,7 @@ func GetCatFromApi() ([]Cat, error) {
 	return catDto, nil
 }
 
+//writes cat data to a csv file
 func writeCatData(cats []Cat) {
 	CreateFileIfNotExists(filepath.Join(path, filepath.Base(filename)))
 	csvFile, err := os.OpenFile(filepath.Join(path, filepath.Base(filename)), os.O_APPEND|os.O_WRONLY, os.ModeAppend)
