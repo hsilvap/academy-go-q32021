@@ -23,7 +23,7 @@ func NewPokemonController(e *gin.Engine) *pokemonController {
 //Reads pokemon from a csv file
 func (this *pokemonController) GetPokemon() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var data, err = GetAllPokemon()
+		var data, err = NewPokemonRepository().GetAllPokemon()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, err)
 		}

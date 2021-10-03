@@ -9,13 +9,24 @@ import (
 	. "bootcamp/interface/services"
 )
 
+type pokemonRepository struct {
+}
+type PokemonRepository interface {
+	GetAllPokemon() ([]Pokemon, error)
+}
+
+//Pokemon Repository instance
+func NewPokemonRepository() *pokemonRepository {
+	return &pokemonRepository{}
+}
+
 var (
 	pkmnpath     = "infraestructure/filestore/pokemon"
 	pkmnfilename = "pokemon.csv"
 )
 
 //Reads pokemons from a CSV
-func GetAllPokemon() ([]Pokemon, error) {
+func (p pokemonRepository) GetAllPokemon() ([]Pokemon, error) {
 
 	var csvFile, err = NewFileService().OpenCsvFile(filepath.Join(pkmnpath, filepath.Base(pkmnfilename)))
 	if err != nil {
