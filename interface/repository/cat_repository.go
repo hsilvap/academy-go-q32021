@@ -12,15 +12,30 @@ import (
 	"strconv"
 
 	. "bootcamp/domain/model"
+	. "bootcamp/interface/services"
 )
 
-const apikey = "36f66790-4986-4490-a054-b26952d733fc"
-const url = "https://api.thecatapi.com/v1/images/search"
-const path = "infraestructure/filestore/cat"
-const filename = "cats.csv"
+type catRepository struct {
+}
+type CatRepository interface {
+	GetCatFromApi() ([]Cat, error)
+	WriteCatData()
+}
+
+//Cat Repository instance
+func NewCatRepository() *catRepository {
+	return &catRepository{}
+}
+
+var (
+	apikey   = "36f66790-4986-4490-a054-b26952d733fc"
+	url      = "https://api.thecatapi.com/v1/images/search"
+	path     = "infraestructure/filestore/cat"
+	filename = "cats.csv"
+)
 
 //Reads cat data from a external web API
-func GetCatFromApi() ([]Cat, error) {
+func (c catRepository) GetCatFromApi() ([]Cat, error) {
 	client := &http.Client{}
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Set("x-api-key", apikey)
@@ -36,13 +51,13 @@ func GetCatFromApi() ([]Cat, error) {
 
 	var catDto []Cat
 	json.Unmarshal(bodyBytes, &catDto)
-	writeCatData(catDto)
+	c.WriteCatData(catDto)
 	return catDto, nil
 }
 
 //writes cat data to a csv file
-func writeCatData(cats []Cat) {
-	CreateFileIfNotExists(filepath.Join(path, filepath.Base(filename)))
+func (c catRepository) WriteCatData(cats []Cat) {
+	NewFileService().CreateFileIfNotExists(filepath.Join(path, filepath.Base(filename)))
 	csvFile, err := os.OpenFile(filepath.Join(path, filepath.Base(filename)), os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 
 	if err != nil {

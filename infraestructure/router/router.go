@@ -11,6 +11,9 @@ func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
 	//routes
+	r.GET("/", func(c *gin.Context) {
+		c.String(200, "hello world!")
+	})
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})

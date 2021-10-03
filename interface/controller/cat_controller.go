@@ -12,7 +12,7 @@ type catController struct {
 	*gin.Engine
 }
 type CatController interface {
-	GetCat()
+	GetCat() gin.HandlerFunc
 }
 
 //Cat Controller instance
@@ -23,7 +23,7 @@ func NewCatController(e *gin.Engine) *catController {
 //Gets a cat from a external API
 func (this *catController) GetCat() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		var cat, err = GetCatFromApi()
+		cat, err := NewCatRepository().GetCatFromApi()
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, err)
 		}

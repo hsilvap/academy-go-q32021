@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	. "bootcamp/domain/model"
+	. "bootcamp/interface/services"
 )
 
 const pkmnpath = "infraestructure/filestore/pokemon"
@@ -14,7 +15,7 @@ const pkmnfilename = "pokemon.csv"
 //Reads pokemons from a CSV
 func GetAllPokemon() ([]Pokemon, error) {
 
-	var csvFile, err = OpenCsvFile(filepath.Join(pkmnpath, filepath.Base(pkmnfilename)))
+	var csvFile, err = NewFileService().OpenCsvFile(filepath.Join(pkmnpath, filepath.Base(pkmnfilename)))
 	if err != nil {
 		return nil, err
 	}
