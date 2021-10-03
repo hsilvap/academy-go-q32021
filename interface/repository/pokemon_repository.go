@@ -9,8 +9,10 @@ import (
 	. "bootcamp/interface/services"
 )
 
-const pkmnpath = "infraestructure/filestore/pokemon"
-const pkmnfilename = "pokemon.csv"
+var (
+	pkmnpath     = "infraestructure/filestore/pokemon"
+	pkmnfilename = "pokemon.csv"
+)
 
 //Reads pokemons from a CSV
 func GetAllPokemon() ([]Pokemon, error) {
