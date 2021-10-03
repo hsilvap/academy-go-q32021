@@ -2,8 +2,6 @@ package repository
 
 import (
 	"encoding/csv"
-	"log"
-	"os"
 	"path/filepath"
 	"strconv"
 
@@ -15,10 +13,9 @@ const pkmnfilename = "pokemon.csv"
 
 //Reads pokemons from a CSV
 func GetAllPokemon() ([]Pokemon, error) {
-	csvFile, err := os.Open(filepath.Join(pkmnpath, filepath.Base(pkmnfilename)))
 
+	var csvFile, err = OpenCsvFile(filepath.Join(pkmnpath, filepath.Base(pkmnfilename)))
 	if err != nil {
-		log.Fatalf("failed loading file: %s", err)
 		return nil, err
 	}
 

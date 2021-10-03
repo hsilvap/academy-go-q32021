@@ -9,6 +9,11 @@ import (
 // Router setup with all available routes
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
+
+	//routes
+	r.GET("/ping", func(c *gin.Context) {
+		c.String(200, "pong")
+	})
 	r.GET("/cat", NewCatController(r).GetCat())
 	r.GET("/pokemon", NewPokemonController(r).GetPokemon())
 	return r

@@ -9,7 +9,7 @@ import (
 //Principal function
 func main() {
 	r := SetupRouter()
-	if err := r.Run(); err != nil {
+	if err := r.Run(":3000"); err != nil {
 		fmt.Printf("startup service failed, err:%v\n", err)
 	}
 }
