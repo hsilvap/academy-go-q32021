@@ -1,0 +1,15 @@
+package router
+
+import (
+	"github.com/gin-gonic/gin"
+
+	. "bootcamp/interface/controller"
+)
+
+// Router setup with all available routes
+func SetupRouter() *gin.Engine {
+	r := gin.Default()
+	r.GET("/cat", NewCatController(r).GetCat())
+	r.GET("/pokemon", NewPokemonController(r).GetPokemon())
+	return r
+}

@@ -1,15 +1,15 @@
 package main
 
 import (
-	. "pokemon/controller"
+	"fmt"
 
-	"github.com/gin-gonic/gin"
+	. "bootcamp/infraestructure/router"
 )
 
 //Principal function
 func main() {
-	//R is the abbreviation of router
-	r := gin.Default()
-	NewPokemonController(r).Router()
-	r.Run(":8080")
+	r := SetupRouter()
+	if err := r.Run(); err != nil {
+		fmt.Printf("startup service failed, err:%v\n", err)
+	}
 }
