@@ -29,11 +29,6 @@ func newMockCatController(t *testing.T) *mockCatController {
 	return &mockCatController{}
 }
 
-// mock controller interface
-func mockContoller(c CatController) {
-	c.GetCat()
-}
-
 //Run test
 func TestCatContoller(t *testing.T) {
 	var ctrller CatController
