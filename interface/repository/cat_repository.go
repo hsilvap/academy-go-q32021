@@ -18,8 +18,8 @@ import (
 type catRepository struct {
 }
 type CatRepository interface {
-	GetCatFromApi() ([]Cat, error)
-	WriteCatData()
+	GetFromApi() ([]Cat, error)
+	WriteData([]Cat)
 }
 
 //Cat Repository instance
@@ -35,7 +35,7 @@ var (
 )
 
 //Reads cat data from a external web API
-func (c catRepository) GetCatFromApi() ([]Cat, error) {
+func (c catRepository) GetFromApi() ([]Cat, error) {
 	client := &http.Client{}
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Set("x-api-key", apikey)
@@ -51,12 +51,12 @@ func (c catRepository) GetCatFromApi() ([]Cat, error) {
 
 	var catDto []Cat
 	json.Unmarshal(bodyBytes, &catDto)
-	c.WriteCatData(catDto)
+	c.WriteData(catDto)
 	return catDto, nil
 }
 
 //writes cat data to a csv file
-func (c catRepository) WriteCatData(cats []Cat) {
+func (c catRepository) WriteData(cats []Cat) {
 	NewFileService().CreateFileIfNotExists(filepath.Join(path, filepath.Base(filename)))
 	csvFile, err := os.OpenFile(filepath.Join(path, filepath.Base(filename)), os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 

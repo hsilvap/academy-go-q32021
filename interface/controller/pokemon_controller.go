@@ -10,20 +10,21 @@ import (
 
 type pokemonController struct {
 	*gin.Engine
+	repo PokemonRepository
 }
 type PokemonController interface {
-	GetPokemon()
+	Get()
 }
 
 //New Pokemon Controller instance
-func NewPokemonController(e *gin.Engine) *pokemonController {
-	return &pokemonController{e}
+func NewPokemonController(e *gin.Engine, r PokemonRepository) *pokemonController {
+	return &pokemonController{e, r}
 }
 
 //Reads pokemon from a csv file
-func (this *pokemonController) GetPokemon() gin.HandlerFunc {
+func (this *pokemonController) Get() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var data, err = NewPokemonRepository().GetAllPokemon()
+		var data, err = this.repo.GetAll()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, err)
 		}

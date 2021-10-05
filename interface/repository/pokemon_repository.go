@@ -12,7 +12,7 @@ import (
 type pokemonRepository struct {
 }
 type PokemonRepository interface {
-	GetAllPokemon() ([]Pokemon, error)
+	GetAll() ([]Pokemon, error)
 }
 
 //Pokemon Repository instance
@@ -26,7 +26,7 @@ var (
 )
 
 //Reads pokemons from a CSV
-func (p pokemonRepository) GetAllPokemon() ([]Pokemon, error) {
+func (p pokemonRepository) GetAll() ([]Pokemon, error) {
 
 	var csvFile, err = NewFileService().OpenCsvFile(filepath.Join(pkmnpath, filepath.Base(pkmnfilename)))
 	if err != nil {

@@ -14,7 +14,8 @@ import (
 
 type mockCatController struct{}
 
-func (m *mockCatController) GetCat() gin.HandlerFunc {
+//Get cat mock function
+func (m *mockCatController) Get() gin.HandlerFunc {
 	gin.SetMode(gin.TestMode)
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
@@ -37,7 +38,7 @@ func TestCatContoller(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, r := gin.CreateTestContext(w)
 
-	r.GET("/cat", ctrller.GetCat())
+	r.GET("/cat", ctrller.Get())
 
 	c.Request, _ = http.NewRequest(http.MethodGet, "/cat", bytes.NewBuffer([]byte("{}")))
 	r.ServeHTTP(w, c.Request)

@@ -10,20 +10,21 @@ import (
 
 type catController struct {
 	*gin.Engine
+	repo CatRepository
 }
 type CatController interface {
-	GetCat() gin.HandlerFunc
+	Get() gin.HandlerFunc
 }
 
 //Cat Controller instance
-func NewCatController(e *gin.Engine) *catController {
-	return &catController{e}
+func NewCatController(e *gin.Engine, r CatRepository) *catController {
+	return &catController{e, r}
 }
 
 //Gets a cat from a external API
-func (this *catController) GetCat() gin.HandlerFunc {
+func (this *catController) Get() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		cat, err := NewCatRepository().GetCatFromApi()
+		cat, err := this.repo.GetFromApi()
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, err)
 		}
