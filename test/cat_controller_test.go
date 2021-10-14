@@ -1,7 +1,7 @@
 package test
 
 import (
-	"bytes"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -9,19 +9,21 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 
+	. "bootcamp/domain/model"
 	. "bootcamp/interface/controller"
 )
 
 type mockCatController struct{}
 
+var mockCat = Cat{Id: "15t", Url: "https://cdn2.thecatapi.com/images/14t.gif", Width: 246, Height: 233}
+
 //Get cat mock function
 func (m *mockCatController) Get() gin.HandlerFunc {
 	gin.SetMode(gin.TestMode)
-	w := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(w)
 
+	var response = []Cat{mockCat}
 	return func(ctx *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"msg": "this worked"})
+		ctx.JSON(http.StatusOK, response)
 	}
 }
 
@@ -40,8 +42,11 @@ func TestCatContoller(t *testing.T) {
 
 	r.GET("/cat", ctrller.Get())
 
-	c.Request, _ = http.NewRequest(http.MethodGet, "/cat", bytes.NewBuffer([]byte("{}")))
+	c.Request, _ = http.NewRequest(http.MethodGet, "/cat", nil)
 	r.ServeHTTP(w, c.Request)
 
+	data := []Cat{}
+	json.Unmarshal(w.Body.Bytes(), &data)
 	assert.EqualValues(t, w.Code, http.StatusOK)
+	assert.EqualValues(t, data, []Cat{mockCat})
 }
