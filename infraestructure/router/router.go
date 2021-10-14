@@ -4,16 +4,10 @@ import (
 	"github.com/gin-gonic/gin"
 
 	. "bootcamp/interface/controller"
-	. "bootcamp/interface/repository"
 )
 
 // Router setup with all available routes
-func SetupRouter() *gin.Engine {
-	r := gin.Default()
-
-	getCatHandler := NewCatController(r, NewCatRepository()).Get()
-	getPokemonHandler := NewPokemonController(r, NewPokemonRepository()).Get()
-	getPokemonAsyncHandler := NewPokemonController(r, NewPokemonRepository()).GetAsync()
+func SetupRouter(r *gin.Engine, catController CatController, pokemonController PokemonController) *gin.Engine {
 
 	//routes
 	r.GET("/", func(c *gin.Context) {
@@ -22,11 +16,11 @@ func SetupRouter() *gin.Engine {
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})
-	r.GET("/cat", getCatHandler)
+	r.GET("/cat", catController.Get())
 	pokemon := r.Group("/pokemon")
 	{
-		pokemon.GET("/get", getPokemonHandler)
-		pokemon.GET("/get/async", getPokemonAsyncHandler)
+		pokemon.GET("/get", pokemonController.Get())
+		pokemon.GET("/get/async", pokemonController.GetAsync())
 	}
 	return r
 }

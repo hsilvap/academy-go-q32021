@@ -14,8 +14,8 @@ type pokemonController struct {
 	repo PokemonRepository
 }
 type PokemonController interface {
-	Get()
-	GetAsync()
+	Get() gin.HandlerFunc
+	GetAsync() gin.HandlerFunc
 }
 
 //New Pokemon Controller instance
